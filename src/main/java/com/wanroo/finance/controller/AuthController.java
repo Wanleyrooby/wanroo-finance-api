@@ -1,7 +1,6 @@
 package com.wanroo.finance.controller;
 
 import com.wanroo.finance.dto.*;
-import com.wanroo.finance.entity.User;
 import com.wanroo.finance.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
