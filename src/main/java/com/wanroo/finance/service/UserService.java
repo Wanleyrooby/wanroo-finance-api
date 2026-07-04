@@ -6,8 +6,6 @@ import com.wanroo.finance.entity.User;
 import com.wanroo.finance.mapper.UserMapper;
 import com.wanroo.finance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,16 +15,17 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public UserResponseDto myProfile() {
-        User user = getAuthenticatedUser();
+        User user = authenticatedUserService.getAuthenticatedUser();
 
         return UserMapper.toResponse(user);
     }
 
     public UserResponseDto updateProfile(UpdateUserDto dto) {
 
-        User user = getAuthenticatedUser();
+        User user = authenticatedUserService.getAuthenticatedUser();
 
         if (!user.getEmail().equals(dto.email())
                 && userRepository.existsByEmail(dto.email())) {
@@ -48,17 +47,6 @@ public class UserService {
                 .stream()
                 .map(UserMapper::toResponse)
                 .toList();
-    }
-
-    private User getAuthenticatedUser() {
-
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 
     public UserResponseDto findById(Long id) {
