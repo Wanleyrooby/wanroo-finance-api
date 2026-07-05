@@ -3,6 +3,8 @@ package com.wanroo.finance.service;
 import com.wanroo.finance.dto.UpdateUserDto;
 import com.wanroo.finance.dto.UserResponseDto;
 import com.wanroo.finance.entity.User;
+import com.wanroo.finance.exception.EmailAlreadyExistsException;
+import com.wanroo.finance.exception.UserNotFoundException;
 import com.wanroo.finance.mapper.UserMapper;
 import com.wanroo.finance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,7 @@ public class UserService {
         if (!user.getEmail().equals(dto.email())
                 && userRepository.existsByEmail(dto.email())) {
 
-            throw new RuntimeException("Email já cadastrado.");
+            throw new EmailAlreadyExistsException();
         }
 
         user.setName(dto.name());
@@ -52,7 +54,7 @@ public class UserService {
     public UserResponseDto findById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(UserNotFoundException::new);
 
         return UserMapper.toResponse(user);
     }

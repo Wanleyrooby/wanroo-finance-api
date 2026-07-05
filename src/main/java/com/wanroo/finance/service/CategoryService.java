@@ -4,6 +4,7 @@ import com.wanroo.finance.dto.CategoryRequestDto;
 import com.wanroo.finance.dto.CategoryResponseDto;
 import com.wanroo.finance.entity.Category;
 import com.wanroo.finance.entity.User;
+import com.wanroo.finance.exception.CategoryNotFoundException;
 import com.wanroo.finance.mapper.CategoryMapper;
 import com.wanroo.finance.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,6 @@ public class CategoryService {
         User user = authenticatedUserService.getAuthenticatedUser();
 
         return categoryRepository.findByIdAndUser(id, user)
-                .orElseThrow(() ->
-                        new RuntimeException("Categoria não encontrada."));
+                .orElseThrow(CategoryNotFoundException::new);
     }
 }
