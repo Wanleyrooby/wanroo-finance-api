@@ -36,6 +36,18 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(TransactionNotFoundException.class)
+    public ResponseEntity<ApiError> handleTransactionNotFound(
+            TransactionNotFoundException e,
+            HttpServletRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                request
+        );
+    }
+
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleEmailAlreadyExists(
             EmailAlreadyExistsException e,
