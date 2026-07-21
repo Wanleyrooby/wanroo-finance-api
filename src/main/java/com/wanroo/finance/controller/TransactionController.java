@@ -1,5 +1,6 @@
 package com.wanroo.finance.controller;
 
+import com.wanroo.finance.dto.DashboardResponseDto;
 import com.wanroo.finance.dto.TransactionRequestDto;
 import com.wanroo.finance.dto.TransactionResponseDto;
 import com.wanroo.finance.service.TransactionService;
@@ -32,6 +33,11 @@ public class TransactionController {
     @GetMapping("/{id}")
     public ResponseEntity<TransactionResponseDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(transactionService.findById(id));
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardResponseDto> dashboard() {
+        return ResponseEntity.ok(transactionService.dashboard());
     }
 
     @PutMapping("/{id}")
