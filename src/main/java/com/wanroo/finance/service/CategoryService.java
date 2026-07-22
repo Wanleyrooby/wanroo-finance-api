@@ -8,9 +8,10 @@ import com.wanroo.finance.exception.CategoryNotFoundException;
 import com.wanroo.finance.mapper.CategoryMapper;
 import com.wanroo.finance.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +35,12 @@ public class CategoryService {
         return CategoryMapper.toResponse(savedCategory);
     }
 
-    public List<CategoryResponseDto> findAll() {
+    public Page<CategoryResponseDto> findAll(Pageable pageable) {
 
         User user = authenticatedUserService.getAuthenticatedUser();
 
-        return categoryRepository.findByUser(user)
-                .stream()
-                .map(CategoryMapper::toResponse)
-                .toList();
+        return categoryRepository.findByUser(user, pageable)
+                .map(CategoryMapper::toResponse);
     }
 
     public CategoryResponseDto findById(Long id) {

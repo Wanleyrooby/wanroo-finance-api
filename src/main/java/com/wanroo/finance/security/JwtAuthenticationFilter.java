@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            logger.warn("Falha na auhenticação JWT: {}");
+            logger.warn("Falha na auhenticação JWT: {}", e);
         }
 
         filterChain.doFilter(request, response);

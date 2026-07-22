@@ -42,20 +42,4 @@ public class UserService {
 
         return UserMapper.toResponse(updatedUser);
     }
-
-    public List<UserResponseDto> findAll() {
-
-        return userRepository.findAll()
-                .stream()
-                .map(UserMapper::toResponse)
-                .toList();
-    }
-
-    public UserResponseDto findById(Long id) {
-
-        User user = userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
-
-        return UserMapper.toResponse(user);
-    }
 }

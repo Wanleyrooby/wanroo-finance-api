@@ -81,6 +81,8 @@ public class GlobalExceptionHandler {
             Exception e,
             HttpServletRequest request) {
 
+        e.printStackTrace();
+
         return buildErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Erro interno do servidor.",

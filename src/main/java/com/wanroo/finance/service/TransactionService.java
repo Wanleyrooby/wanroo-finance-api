@@ -13,10 +13,12 @@ import com.wanroo.finance.mapper.TransactionMapper;
 import com.wanroo.finance.repository.CategoryRepository;
 import com.wanroo.finance.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -47,14 +49,12 @@ public class TransactionService {
         return TransactionMapper.toResponse(savedTransaction);
     }
 
-    public List<TransactionResponseDto> findAll() {
+    public Page<TransactionResponseDto> findAll(Pageable pageable) {
 
         User user = authenticatedUserService.getAuthenticatedUser();
 
-        return transactionRepository.findByUser(user)
-                .stream()
-                .map(TransactionMapper::toResponse)
-                .toList();
+        return transactionRepository.findByUser(user, pageable)
+                .map(TransactionMapper::toResponse);
     }
 
     public TransactionResponseDto findById(Long id) {
