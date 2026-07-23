@@ -81,19 +81,6 @@ public class TransactionController {
     }
 
     @Operation(
-            summary = "Dashboard financeiro",
-            description = "Retorna os indicadores financeiros do usuário, como receitas, despesas e saldo."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Dashboard retornado com sucesso"),
-            @ApiResponse(responseCode = "401", description = "Usuário não autenticado")
-    })
-    @GetMapping("/dashboard")
-    public ResponseEntity<DashboardResponseDto> dashboard() {
-        return ResponseEntity.ok(transactionService.dashboard());
-    }
-
-    @Operation(
             summary = "Atualizar transação",
             description = "Atualiza uma transação existente."
     )
