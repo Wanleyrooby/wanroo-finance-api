@@ -1,5 +1,6 @@
 package com.wanroo.finance.service;
 
+import com.wanroo.finance.dto.TransactionFilterDto;
 import com.wanroo.finance.dto.TransactionRequestDto;
 import com.wanroo.finance.dto.TransactionResponseDto;
 import com.wanroo.finance.entity.Category;
@@ -10,6 +11,7 @@ import com.wanroo.finance.exception.TransactionNotFoundException;
 import com.wanroo.finance.mapper.TransactionMapper;
 import com.wanroo.finance.repository.CategoryRepository;
 import com.wanroo.finance.repository.TransactionRepository;
+import com.wanroo.finance.specification.TransactionSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,11 +47,15 @@ public class TransactionService {
         return TransactionMapper.toResponse(savedTransaction);
     }
 
-    public Page<TransactionResponseDto> findAll(Pageable pageable) {
+    public Page<TransactionResponseDto> findAll(
+            TransactionFilterDto filter,
+            Pageable pageable) {
 
         User user = authenticatedUserService.getAuthenticatedUser();
 
-        return transactionRepository.findByUser(user, pageable)
+        return transactionRepository.findAll(
+                        TransactionSpecification.byFilters(user, filter),
+                        pageable)
                 .map(TransactionMapper::toResponse);
     }
 

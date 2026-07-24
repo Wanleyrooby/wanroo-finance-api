@@ -1,11 +1,10 @@
 package com.wanroo.finance.controller;
 
-import com.wanroo.finance.dto.DashboardResponseDto;
+import com.wanroo.finance.dto.TransactionFilterDto;
 import com.wanroo.finance.dto.TransactionRequestDto;
 import com.wanroo.finance.dto.TransactionResponseDto;
 import com.wanroo.finance.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -58,10 +57,13 @@ public class TransactionController {
     @GetMapping
     public ResponseEntity<Page<TransactionResponseDto>> findAll(
             @ParameterObject
+            TransactionFilterDto filter,
+
+            @ParameterObject
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC)
             Pageable pageable) {
 
-        return ResponseEntity.ok(transactionService.findAll(pageable));
+        return ResponseEntity.ok(transactionService.findAll(filter, pageable));
     }
 
     @Operation(

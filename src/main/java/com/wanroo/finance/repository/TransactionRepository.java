@@ -3,18 +3,18 @@ package com.wanroo.finance.repository;
 import com.wanroo.finance.entity.Transaction;
 import com.wanroo.finance.entity.TransactionType;
 import com.wanroo.finance.entity.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
 
-    Page<Transaction> findByUser(User user, Pageable pageable);
+//    - Não faz mais sentido com a impelmentação de Specification
+//    Page<Transaction> findByUser(User user, Pageable pageable);
 
     Optional<Transaction> findByIdAndUser(Long id, User user);
 
