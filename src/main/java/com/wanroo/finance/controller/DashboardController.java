@@ -1,5 +1,6 @@
 package com.wanroo.finance.controller;
 
+import com.wanroo.finance.dto.DashboardFilterDto;
 import com.wanroo.finance.dto.DashboardResponseDto;
 import com.wanroo.finance.service.DashboardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ public class DashboardController {
             @ApiResponse(responseCode = "401", description = "Usuário não autenticado")
     })
     @GetMapping
-    public ResponseEntity<DashboardResponseDto> dashboard() {
-        return ResponseEntity.ok(dashboardService.dashboard());
+    public ResponseEntity<DashboardResponseDto> dashboard(@ParameterObject DashboardFilterDto filter) {
+        return ResponseEntity.ok(dashboardService.dashboard(filter));
     }
 }

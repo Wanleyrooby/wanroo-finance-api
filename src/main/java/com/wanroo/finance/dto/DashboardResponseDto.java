@@ -3,6 +3,7 @@ package com.wanroo.finance.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Schema(description = "Resumo financeiro do usuário")
 public record DashboardResponseDto(
@@ -29,7 +30,9 @@ public record DashboardResponseDto(
                 description = "Quantidade total de transações",
                 example = "18"
         )
-        Long totalTransactions
+        Long totalTransactions,
+
+        List<MonthlySummaryDto> monthlySummary
 
 ) {
 }
