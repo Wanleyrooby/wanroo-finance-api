@@ -15,12 +15,7 @@ import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
 
-//    - Não faz mais sentido com a impelmentação de Specification
-//    Page<Transaction> findByUser(User user, Pageable pageable);
-
     Optional<Transaction> findByIdAndUser(Long id, User user);
-
-    /*Long countByUser(User user, LocalDate startDate, LocalDate endDate);*/
 
     @Query("""
         SELECT COUNT(t)
@@ -42,19 +37,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             AND t.type = :type
             """)
     BigDecimal sumAmountByUserAndType(@Param("user") User user, @Param("type") TransactionType transactionType);
-
-    /*@Query("""
-        SELECT
-            YEAR(t.date),
-            MONTH(t.date),
-            SUM(t.amount)
-        FROM Transaction t
-        WHERE t.user = :user
-          AND t.type = :type
-        GROUP BY YEAR(t.date), MONTH(t.date)
-        ORDER BY YEAR(t.date), MONTH(t.date)
-    """)
-    List<Object[]> sumAmountByMonth(@Param("user") User user, @Param("type") TransactionType type);*/
 
     @Query("""
     SELECT COALESCE(SUM(t.amount), 0)
