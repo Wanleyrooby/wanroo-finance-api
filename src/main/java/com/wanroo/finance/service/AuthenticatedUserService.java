@@ -1,6 +1,7 @@
 package com.wanroo.finance.service;
 
 import com.wanroo.finance.entity.User;
+import com.wanroo.finance.exception.UserNotFoundException;
 import com.wanroo.finance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,6 @@ public class AuthenticatedUserService {
         String email = authentication.getName();
 
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(UserNotFoundException::new);
     }
 }
